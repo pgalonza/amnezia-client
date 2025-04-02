@@ -16,7 +16,9 @@ if [ ! -f /opt/amnezia/wireguard/wireguard_psk.key ]; then
 fi
 echo $WIREGUARD_PSK > /opt/amnezia/wireguard/wireguard_psk.key
 
-AWG_SERVER_IP=$(echo $AWG_SUBNET_IP | sed 's/\.0$/\.1/')
+IFS='.' read -r a b c d <<< "$WIREGUARD_SUBNET_IP"
+((d++))
+WIREGUARD_SERVER_IP="${a}.${b}.${c}.${d}"
 
 cat > /opt/amnezia/awg/wg0.conf <<EOF
 [Interface]
